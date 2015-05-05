@@ -65,7 +65,7 @@ class DotBlockPreprocessor(markdown.preprocessors.Preprocessor):
                     print("pass " + out)
 
                 if show:
-                    img = "![" + out + "](/" + img_href + ")"
+                    img = "![" + out + "](" + img_href + ")"
                     text = '%s\n%s\n%s' % (text[:m.start()], img, text[m.end():])
                 else:
                     text = '%s\n%s' % (text[:m.start()], text[m.end():])

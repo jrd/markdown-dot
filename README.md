@@ -3,13 +3,11 @@ What is it
 
 A Python Markdown extension that replaces inline dot graph defintions with an image tag pointing to the generated graph image.
 
-Please note that I developed this specifically for my Perlican based blog and hence output directories and other stuff is hard coded.
-
 # Installation
 
 Checkout and *easy_install* or *pip install* it:
 
-    $ git clone git://github.com/jawher/markdown-dot.git
+    $ git clone git://github.com/jrd/markdown-dot.git
     $ cd markdown-dot
     $ easy_install .
 
@@ -38,7 +36,7 @@ If the file name starts with a `!`, the image will still be generated but no `im
 
 # Troubleshooting
 
-Please consider using [Github issues tracker](http://github.com/jawher/markdown-dot/issues) to submit bug reports or feature requests.
+Please consider using [Github issues tracker](http://github.com/jrd/markdown-dot/issues) to submit bug reports or feature requests.
 
 
 # License

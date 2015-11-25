@@ -44,8 +44,8 @@ class DotBlockPreprocessor(markdown.preprocessors.Preprocessor):
                     show = False
                     out_file = out_file[1:]
                 ext = os.path.splitext(out_file)[1][1:].strip()
-                h_path = md5.new(out_file).hexdigest()
-                h_code = md5.new(code).hexdigest()
+                h_path = md5.new(out_file.encode('utf8')).hexdigest()
+                h_code = md5.new(code.encode('utf8')).hexdigest()
                 cache = BaseDirectory.save_cache_path('markdown-dot') + h_path
                 if self.should_generate(out_file, cache, h_code):
                     self.ensure_dir_exists(out_file)

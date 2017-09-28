@@ -5,7 +5,7 @@ import markdown
 import os
 import subprocess
 import tempfile
-import md5
+from hashlib import md5
 from xdg import BaseDirectory
 
 
@@ -31,9 +31,7 @@ class DotBlockPreprocessor(markdown.preprocessors.Preprocessor):
 
     def run(self, lines):
         """ Match and store Fenced Code Blocks in the HtmlStash. """
-        print("text reading")
         text = "\n".join(lines)
-        print("text read")
         while 1:
             m = FENCED_BLOCK_RE.search(text)
             if m:
@@ -44,14 +42,16 @@ class DotBlockPreprocessor(markdown.preprocessors.Preprocessor):
                     show = False
                     out_file = out_file[1:]
                 ext = os.path.splitext(out_file)[1][1:].strip()
-                h_path = md5.new(out_file.encode('utf8')).hexdigest()
-                h_code = md5.new(code.encode('utf8')).hexdigest()
-                cache = BaseDirectory.save_cache_path('markdown-dot') + h_path
+                h_path = md5(out_file.encode('utf8')).hexdigest()
+                h_code = md5(code.encode('utf8')).hexdigest()
+                cache = os.path.join(BaseDirectory.save_cache_path('markdown-dot'), h_path)
                 if self.should_generate(out_file, cache, h_code):
                     self.ensure_dir_exists(out_file)
                     print("generate " + out_file)
                     dot = subprocess.Popen(['dot', '-T', ext, '-o', out_file], bufsize=1, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    print("".join(dot.communicate(input=code.encode('utf8'))))
+                    print(dot.communicate(input=code.encode('utf8'))[1])
+                    with open(cache, 'w') as f:
+                        f.write(h_code)
                 else:
                     print("pass " + out_file)
                 if show:
